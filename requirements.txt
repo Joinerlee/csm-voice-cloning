@@ -8,3 +8,8 @@ torchtune==0.4.0
 torchao==0.9.0
 silentcipher @ git+https://github.com/SesameAILabs/silentcipher@master
 numpy
+fastapi==0.110.0
+uvicorn==0.27.1
+python-multipart==0.0.9
+gTTS==2.5.1
+pydantic==2.5.2

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  voice-cloning-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./hf_cache:/app/hf_cache
+      - ./output:/app/output
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-""}  # Set your Hugging Face token in .env or pass as env var
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped 
