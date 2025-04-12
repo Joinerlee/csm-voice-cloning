@@ -10,6 +10,7 @@ from filler_words import detect_fillers, split_text_with_fillers
 from gtts import gTTS
 import tempfile
 import numpy as np
+import re
 
 # 감정 분석 모델 로드
 def load_emotion_model():
@@ -108,6 +109,13 @@ def remove_silence(audio, threshold=0.01, min_silence_duration=0.2, sample_rate=
 # GTTS로 오디오 생성
 def generate_gtts_audio(text, lang='en'):
     print(f"GTTS로 오디오 생성 중: {text}")
+    
+    # 빈 텍스트나 구두점만 있는 경우 처리
+    if not text or text.strip() == "" or re.match(r'^[,.!?;:]+$', text.strip()):
+        print(f"  경고: 빈 텍스트 또는 구두점만 있음, 기본 음성 생성")
+        # 무음 또는 기본 텍스트로 대체
+        text = "silence"  # 기본 텍스트로 대체
+    
     temp_file = tempfile.NamedTemporaryFile(suffix=".mp3", delete=False)
     try:
         tts = gTTS(text=text, lang=lang, slow=False)
